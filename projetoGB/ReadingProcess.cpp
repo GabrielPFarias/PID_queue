@@ -20,6 +20,6 @@ string ReadingProcess::get_file() {
 	return file;
 }
 
-void ReadingProcess::set_file(string s_file) {
-	file = s_file;
+void ReadingProcess::set_file(string file) {
+	file = file;
 }

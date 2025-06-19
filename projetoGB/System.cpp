@@ -25,24 +25,43 @@ string System::get_computation_file() {
 }
 
 void System::run() {
-	int option = 0;
-	cout << "(1) Criar Processo" << endl;
-	cout << "(2) Executar Proximo" << endl;
-	cout << "(3) Executar Processo Especifico" << endl;
-	cout << "(4) Salvar fila de processos" << endl;
-	cout << "(5) Carregar do arquivo a fila de processos" << endl;
-	cout << "Digite a opcao desejada: ";
-	cin >> option;
-	cout << "\n";
+	int option = -1;
+	while (true) {
+		cout << "(1) Criar Processo" << endl;
+		cout << "(2) Executar Proximo" << endl;
+		cout << "(3) Executar Processo Especifico" << endl;
+		cout << "(4) Salvar fila de processos" << endl;
+		cout << "(5) Carregar do arquivo a fila de processos" << endl;
+		cout << "(0) Sair" << endl;
+		cout << "Digite a opcao desejada: ";
+		cin >> option;
+		cout << "\n";
 
-	if(option==1) {
-		createProcess();
-	}
-	else if (option==2) {
-		executeNextProcess();
-	}
-	else if (option == 3) {
-		executeSpecificProcess();
+		switch (option) {
+		case 1:
+			createProcess();
+			break;
+		case 2:
+			executeNextProcess();
+			break;
+		case 3:
+			executeSpecificProcess();
+			break;
+		case 4:
+			// salvarFila(); // (adicione isso quando implementar)
+			cout << "[placeholder] Salvando fila..." << endl;
+			break;
+		case 5:
+			// carregarFila(); // (adicione isso quando implementar)
+			cout << "[placeholder] Carregando fila..." << endl;
+			break;
+		case 0:
+			cout << "Saindo do sistema..." << endl;
+			return;
+		default:
+			cout << "Opcao invalida. Tente novamente." << endl;
+			break;
+		}
 	}
 }
 
@@ -56,40 +75,44 @@ void System::createProcess() {
 	cout << "Escolha o processo que deseja criar: ";
 	cin >> option;
 
-	if(option==1) {
+	if (option == 1) {
 		string equation = "";
 		cout << "Digite a equacao: " << endl;
 		cin.ignore();
 		getline(cin, equation);
 
-		ComputingProcess computingProcess;
-		computingProcess.parse(equation);
-		computingProcess.set_PID(pid_counter);
+		ComputingProcess* computingProcess = new ComputingProcess();
+		computingProcess->parse(equation);
+		computingProcess->set_PID(pid_counter);
 		pid_counter++;
-		processQueue.push(&computingProcess);
+		processQueue.push(computingProcess);
 	}
-	else if(option == 2) {
+	else if (option == 2) {
 		string equation = "";
 		cout << "Digite a equacao: " << endl;
 		cin.ignore();
 		getline(cin, equation);
 
-		WritingProcess writingProcess;
-		writingProcess.set_file(computation_file);
-		writingProcess.set_equation(equation);
-		writingProcess.set_PID(pid_counter);
+		WritingProcess* writingProcess = new WritingProcess();
+		writingProcess->set_file(computation_file);
+		writingProcess->set_equation(equation);
+		writingProcess->set_PID(pid_counter);
 		pid_counter++;
-		processQueue.push(&writingProcess);
+		processQueue.push(writingProcess);
 	}
 	else if (option == 3) {
-		ReadingProcess readingProcess(&processQueue);
-		readingProcess.set_file(computation_file);
-		readingProcess.set_PID(pid_counter);
+		ReadingProcess* readingProcess = new ReadingProcess(&processQueue);
+		readingProcess->set_file(computation_file);
+		readingProcess->set_PID(pid_counter);
 		pid_counter++;
-		processQueue.push(&readingProcess);
+		processQueue.push(readingProcess);
 	}
 	else if (option == 4) {
-		PrintingProcess printingProcess;
+		PrintingProcess* printingProcess = new PrintingProcess(&processQueue);
+		printingProcess->set_file(computation_file);
+		printingProcess->set_PID(pid_counter);
+		pid_counter++;
+		processQueue.push(printingProcess);
 	}
 
 }

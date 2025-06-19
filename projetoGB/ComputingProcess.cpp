@@ -46,7 +46,7 @@ void ComputingProcess::parse(string equation) {
 		return;
 	}
 
-	num1 = stoi(equation.substr(0, opPos));
+	num1 = stod(equation.substr(0, opPos));
 	sign = equation.substr(opPos, 1);
-	num2 = stoi(equation.substr(opPos + 1));
+	num2 = stod(equation.substr(opPos + 1));
 }

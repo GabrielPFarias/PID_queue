@@ -13,9 +13,9 @@ public:
 	void execute() override;
 	void parse(string);
 private:
-	int num1;
-	int num2;
+	double num1;
+	double num2;
 	string sign;
-	float result;
+	double result;
 };
 

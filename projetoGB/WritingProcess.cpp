@@ -23,7 +23,7 @@ void WritingProcess::set_file(string s_file) {
 }
 
 void WritingProcess::parse(string equation){
-	parsed_equation = ";" + removeSpaces(equation);
+	parsed_equation = removeSpaces(equation) + "\n";
 }
 
 void WritingProcess::set_equation(string equation) {
