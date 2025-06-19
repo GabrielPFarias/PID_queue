@@ -14,6 +14,6 @@ public:
 	void set_file(string);
 private:
 	string file;
-	void execute();
+	void execute() override;
 };
 

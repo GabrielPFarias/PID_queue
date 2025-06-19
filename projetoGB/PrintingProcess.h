@@ -1,9 +1,12 @@
 #pragma once
-class PrintingProcess
+
+#include "Process.h"
+
+class PrintingProcess: public Process
 {
 public:
 	PrintingProcess();
 private:
-	void execute();
+	void execute() override;
 };
 

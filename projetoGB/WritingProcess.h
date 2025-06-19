@@ -14,7 +14,7 @@ public:
 	string get_file();
 private:
 	string file;
-	void execute();
+	void execute() override;
 	void parse();
 };
 

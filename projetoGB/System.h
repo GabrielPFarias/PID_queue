@@ -1,6 +1,9 @@
 #pragma once
 
+#include <queue>
 #include <string>
+
+#include "Process.h"
 
 using namespace std;
 
@@ -14,9 +17,10 @@ public:
 private:
 	string file;
 	int option;
-	void CreateProcess();
-	void ExecuteNextProcess();
-	void ExecuteSpecificProcess();
-	void SaveInFile();
-	void RetrieveFromFile();
+	queue<Process*> processQueue;
+	void createProcess();
+	void executeNextProcess();
+	void executeSpecificProcess();
+	void saveInFile();
+	void retrieveFromFile();
 };
