@@ -1,4 +1,6 @@
 #include <string>
+#include <fstream>
+#include <vector>
 
 #include "util.h"
 #include "WritingProcess.h"
@@ -11,6 +13,22 @@ WritingProcess::WritingProcess() {
 }
 
 void WritingProcess::execute() {
+	ifstream iMyFile(file);
+	vector<string> lines;
+
+	string line;
+	while (getline(iMyFile, line)) {
+		lines.push_back(line);
+	}
+	iMyFile.close();
+
+	lines.push_back(equation);
+
+	ofstream oMyFile(file);
+	for (size_t i = 0; i < lines.size(); i++) {
+		oMyFile << lines[i] << endl;
+	}
+	oMyFile.close();
 
 }
 
@@ -18,16 +36,12 @@ string WritingProcess::get_file() {
 	return file;
 }
 
-void WritingProcess::set_file(string s_file) {
-	file = s_file;
-}
-
-void WritingProcess::parse(string equation){
-	parsed_equation = removeSpaces(equation) + "\n";
+void WritingProcess::set_file(string file) {
+	this->file = file;
 }
 
 void WritingProcess::set_equation(string equation) {
-	equation = equation;
+	this->equation = equation;
 }
 
 string WritingProcess::get_equation() {

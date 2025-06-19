@@ -9,9 +9,11 @@ ComputingProcess::ComputingProcess(){
 	this->num2 = 0;
 	this->sign = "";
 	this->result = 0;
+	this->equation = "";
 }
 
 void ComputingProcess::execute() {
+	parse();
 	if (sign == "+") {
 		result = num1 + num2;
 	}
@@ -37,7 +39,7 @@ void ComputingProcess::execute() {
 }
 
 
-void ComputingProcess::parse(string equation) {
+void ComputingProcess::parse() {
 	equation = removeSpaces(equation);
 
 	size_t opPos = equation.find_first_of("+-*/xX");
@@ -49,4 +51,13 @@ void ComputingProcess::parse(string equation) {
 	num1 = stod(equation.substr(0, opPos));
 	sign = equation.substr(opPos, 1);
 	num2 = stod(equation.substr(opPos + 1));
+}
+
+
+string ComputingProcess::get_equation() {
+	return equation;
+}
+
+void ComputingProcess::set_equation(string equation) {
+	this->equation = equation;
 }

@@ -18,8 +18,6 @@ public:
 private:
 	string file;
 	string equation;
-	string parsed_equation;
 	void execute() override;
-	void parse(string);
 };
 

@@ -16,7 +16,7 @@ string PrintingProcess::get_file() {
 }
 
 void PrintingProcess::set_file(string file) {
-	file = file;
+	this->file = file;
 }
 
 

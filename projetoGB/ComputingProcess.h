@@ -11,8 +11,11 @@ class ComputingProcess: public Process
 public:
 	ComputingProcess();
 	void execute() override;
-	void parse(string);
+	void parse();
+	string get_equation();
+	void set_equation(string);
 private:
+	string equation;
 	double num1;
 	double num2;
 	string sign;

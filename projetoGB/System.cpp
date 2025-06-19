@@ -17,7 +17,7 @@ System::System() {
 }
 
 void System::set_computation_file(string computation_file) {
-	computation_file = computation_file;
+	this->computation_file = computation_file;
 }
 
 string System::get_computation_file() {
@@ -82,7 +82,7 @@ void System::createProcess() {
 		getline(cin, equation);
 
 		ComputingProcess* computingProcess = new ComputingProcess();
-		computingProcess->parse(equation);
+		computingProcess->set_equation(equation);
 		computingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(computingProcess);
@@ -124,13 +124,13 @@ void System::executeNextProcess() {
 		processQueue.pop();
 	}
 	else {
-		cout << "Não há processos na fila." << endl;
+		cout << "Nao existem processos na fila." << endl;
 	}
 }
 
 void System::executeSpecificProcess() {
 	if (processQueue.empty()) {
-		cout << "Não há processos na fila." << endl;
+		cout << "Nao existem processos na fila." << endl;
 	}
 	else {
 		queue<Process*> processQueueTemp;
