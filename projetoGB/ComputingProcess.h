@@ -13,8 +13,8 @@ public:
 	void execute() override;
 	void parse(string);
 private:
-	float num1;
-	float num2;
+	int num1;
+	int num2;
 	string sign;
 	float result;
 };
