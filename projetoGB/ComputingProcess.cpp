@@ -7,7 +7,7 @@
 ComputingProcess::ComputingProcess(){
 	this->num1 = 0;
 	this->num2 = 0;
-	this->sign = 'a';
+	this->sign = "";
 	this->result = 0;
 }
 

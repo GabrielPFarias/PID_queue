@@ -3,33 +3,37 @@
 #include <queue>
 
 #include "ComputingProcess.h"
+#include "PrintingProcess.h"
+#include "ReadingProcess.h"
+#include "WritingProcess.h"
 #include "Process.h"
 #include "System.h"
 
 using namespace std;
 
 System::System() {
-	this->file = "";
-	this->option = 0;
+	this->computation_file = "";
+	this->pid_counter = 1;
 }
 
-void System::set_file(string file) {
-	file = file;
+void System::set_computation_file(string computation_file) {
+	computation_file = computation_file;
 }
 
-string System::get_file() {
-	return file;
+string System::get_computation_file() {
+	return computation_file;
 }
 
 void System::run() {
 	int option = 0;
-	cout << "Digite a opcao desejada: " << endl;
 	cout << "(1) Criar Processo" << endl;
 	cout << "(2) Executar Proximo" << endl;
 	cout << "(3) Executar Processo Especifico" << endl;
 	cout << "(4) Salvar fila de processos" << endl;
 	cout << "(5) Carregar do arquivo a fila de processos" << endl;
+	cout << "Digite a opcao desejada: ";
 	cin >> option;
+	cout << "\n";
 
 	if(option==1) {
 		createProcess();
@@ -45,28 +49,49 @@ void System::run() {
 
 void System::createProcess() {
 	int option = 0;
-	cout << "Escolha o processo que deseja criar: " << endl;;
 	cout << "(1) ComputingProcess" << endl;
 	cout << "(2) WritingProcess" << endl;
 	cout << "(3) ReadingProcess" << endl;
 	cout << "(4) PrintingProcess" << endl;
+	cout << "Escolha o processo que deseja criar: ";
 	cin >> option;
 
 	if(option==1) {
 		string equation = "";
-		cout << "Digite a equacao: ";
-		cin >> equation;
+		cout << "Digite a equacao: " << endl;
+		cin.ignore();
+		getline(cin, equation);
 
 		ComputingProcess computingProcess;
 		computingProcess.parse(equation);
-		computingProcess.execute();
+		computingProcess.set_PID(pid_counter);
+		pid_counter++;
+		processQueue.push(&computingProcess);
 	}
 	else if(option == 2) {
-		
+		string equation = "";
+		cout << "Digite a equacao: " << endl;
+		cin.ignore();
+		getline(cin, equation);
+
+		WritingProcess writingProcess;
+		writingProcess.set_file(computation_file);
+		writingProcess.set_equation(equation);
+		writingProcess.set_PID(pid_counter);
+		pid_counter++;
+		processQueue.push(&writingProcess);
 	}
 	else if (option == 3) {
-
+		ReadingProcess readingProcess(&processQueue);
+		readingProcess.set_file(computation_file);
+		readingProcess.set_PID(pid_counter);
+		pid_counter++;
+		processQueue.push(&readingProcess);
 	}
+	else if (option == 4) {
+		PrintingProcess printingProcess;
+	}
+
 }
 
 void System::executeNextProcess() {

@@ -10,13 +10,13 @@ using namespace std;
 class System {
 public:
 	System();
-	void set_file(string);
-	string get_file();
+	void set_computation_file(string);
+	string get_computation_file();
 	void run();
 
 private:
-	string file;
-	int option;
+	string computation_file;
+	int pid_counter;
 	queue<Process*> processQueue;
 	void createProcess();
 	void executeNextProcess();

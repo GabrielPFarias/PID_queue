@@ -7,3 +7,7 @@ Process::Process() {
 int Process::get_PID() {
 	return PID;
 }
+
+void Process::set_PID(int pid) {
+	PID = pid;
+}

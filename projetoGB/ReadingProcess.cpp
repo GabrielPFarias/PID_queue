@@ -1,11 +1,15 @@
+#include <queue>
 #include <string>
 
 #include "ReadingProcess.h"
 
 using namespace std;
 
-ReadingProcess::ReadingProcess() {
+ReadingProcess::ReadingProcess() {}
+
+ReadingProcess::ReadingProcess(queue<Process*>* processQueue) {
 	this->file = "";
+	this->processQueue = processQueue;
 }
 
 void ReadingProcess::execute() {
