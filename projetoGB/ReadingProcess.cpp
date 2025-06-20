@@ -53,5 +53,5 @@ void ReadingProcess::print() {
 }
 
 string ReadingProcess::toPoolFile() {
-	return "ReadingProcess;" + to_string(PID) + ";";
+	return "ReadingProcess;" + to_string(PID);
 }

@@ -25,5 +25,5 @@ void PrintingProcess::print() {
 }
 
 string PrintingProcess::toPoolFile() {
-	return "PrintingProcess;" + to_string(PID) + ";";
+	return "PrintingProcess;" + to_string(PID);
 }
