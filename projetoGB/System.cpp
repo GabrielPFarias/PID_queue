@@ -101,7 +101,7 @@ void System::createProcess() {
 		processQueue.push(writingProcess);
 	}
 	else if (option == 3) {
-		ReadingProcess* readingProcess = new ReadingProcess(&processQueue);
+		ReadingProcess* readingProcess = new ReadingProcess(&processQueue, &pid_counter);
 		readingProcess->set_file(computation_file);
 		readingProcess->set_PID(pid_counter);
 		pid_counter++;
@@ -133,6 +133,7 @@ void System::executeSpecificProcess() {
 		cout << "Nao existem processos na fila." << endl;
 	}
 	else {
+		Process* processToExecute = nullptr;
 		queue<Process*> processQueueTemp;
 		bool found = false;
 		int processPID = 0;
@@ -144,17 +145,20 @@ void System::executeSpecificProcess() {
 			processQueue.pop();
 
 			if (current->get_PID() == processPID && !found) {
-				current->execute();
-				delete current;
+				processToExecute = current;
 				found = true;
 				continue; // nao faz o push do processo na fila temp
 			}
 			processQueueTemp.push(current);
 		}
-		if (!found) {
-			cout << "Processo com PID " << processPID << " nao encontrado." << endl;
-		}
 
 		processQueue = processQueueTemp; // atualiza a fila original sem o processo executado
+
+		if (found && processToExecute != nullptr) {
+			processToExecute->execute();
+		}
+		else {
+			cout << "Processo com PID " << processPID << " nao encontrado." << endl;
+		}
 	}
 }

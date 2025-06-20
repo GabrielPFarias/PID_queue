@@ -11,6 +11,7 @@ class ComputingProcess: public Process
 public:
 	ComputingProcess();
 	void execute() override;
+	void print() override;
 	void parse();
 	string get_equation();
 	void set_equation(string);

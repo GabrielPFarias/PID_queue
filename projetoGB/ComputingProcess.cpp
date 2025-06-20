@@ -61,3 +61,7 @@ string ComputingProcess::get_equation() {
 void ComputingProcess::set_equation(string equation) {
 	this->equation = equation;
 }
+
+void ComputingProcess::print() {
+	cout << "Tipo: " << "ComputingProcess" << "  PID: " << get_PID() << "  Equation: " << get_equation() << endl;
+}

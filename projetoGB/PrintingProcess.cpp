@@ -1,3 +1,4 @@
+#include <iostream>
 #include <queue>
 
 #include "PrintingProcess.h"
@@ -20,4 +21,15 @@ void PrintingProcess::set_file(string file) {
 }
 
 
-void PrintingProcess::execute() {}
+void PrintingProcess::execute() {
+	queue<Process*> processQueueTemp = *processQueue;
+	while (!processQueueTemp.empty()) {
+		Process* tempProcess = processQueueTemp.front();
+		tempProcess->print();
+		processQueueTemp.pop();
+	}
+}
+
+void PrintingProcess::print() {
+	cout << "Tipo: " << "PrintingProcess" << "  PID: " << PID << endl;
+}

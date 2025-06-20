@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include <queue>
 #include <string>
 #include <vector>
@@ -10,7 +11,7 @@ using namespace std;
 
 ReadingProcess::ReadingProcess() {}
 
-ReadingProcess::ReadingProcess(queue<Process*>* processQueue, int pid_counter) {
+ReadingProcess::ReadingProcess(queue<Process*>* processQueue, int* pid_counter) {
 	this->file = "";
 	this->processQueue = processQueue;
 	this->pid_counter = pid_counter;
@@ -29,14 +30,13 @@ void ReadingProcess::execute() {
 	for (size_t i = 0; i < lines.size(); i++) {
 		ComputingProcess* computingProcess = new ComputingProcess();
 		computingProcess->set_equation(lines[i]);
-		computingProcess->set_PID(pid_counter);
-		pid_counter++;
+		computingProcess->set_PID(*pid_counter);
+		(*pid_counter)++;
 
 		processQueue->push(computingProcess);
 	}
 
 	ofstream oMyFile(file);
-	oMyFile.clear();
 	oMyFile.close();
 }
 
@@ -46,4 +46,8 @@ string ReadingProcess::get_file() {
 
 void ReadingProcess::set_file(string file) {
 	this->file = file;
+}
+
+void ReadingProcess::print() {
+	cout << "Tipo: " << "ReadingProcess" << "  PID: " << get_PID() << "  Equation: " << endl;
 }

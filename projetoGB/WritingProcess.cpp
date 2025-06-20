@@ -1,5 +1,6 @@
-#include <string>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
 #include "util.h"
@@ -46,4 +47,8 @@ void WritingProcess::set_equation(string equation) {
 
 string WritingProcess::get_equation() {
 	return equation;
+}
+
+void WritingProcess::print() {
+	cout << "Tipo: " << "WritingProcess" << "  PID: " << get_PID() << "  Equation: " << get_equation() << endl;
 }

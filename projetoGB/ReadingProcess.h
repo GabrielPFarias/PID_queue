@@ -11,13 +11,14 @@ class ReadingProcess: public Process
 {
 public:
 	ReadingProcess();
-	ReadingProcess(queue<Process*>*, int);
+	ReadingProcess(queue<Process*>*, int*);
+	void execute() override;
+	void print() override;
 	string get_file();
 	void set_file(string);
 private:
-	int pid_counter;
+	int* pid_counter;
 	queue<Process*>* processQueue;
 	string file;
-	void execute() override;
 };
 

@@ -12,12 +12,13 @@ class PrintingProcess: public Process
 public:
 	PrintingProcess();
 	PrintingProcess(queue<Process*>*);
+	void execute() override;
+	void print() override;
 	string get_file();
 	void set_file(string);
 
 private:
 	string file;
 	queue<Process*>* processQueue;
-	void execute() override;
 };
 

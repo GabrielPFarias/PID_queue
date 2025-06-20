@@ -12,12 +12,13 @@ public:
 	WritingProcess();
 	void set_file(string);
 	string get_file();
+	void execute() override;
+	void print() override;
 	void set_equation(string);
 	string get_equation();
 
 private:
 	string file;
 	string equation;
-	void execute() override;
 };
 

@@ -6,6 +6,7 @@ public:
 	int get_PID();
 	void set_PID(int);
 	virtual void execute() = 0;
+	virtual void print() = 0;
 protected:
 	int PID;
 };
