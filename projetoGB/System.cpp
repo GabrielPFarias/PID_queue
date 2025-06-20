@@ -3,6 +3,7 @@
 #include <string>
 #include <queue>
 
+#include "util.h"
 #include "ComputingProcess.h"
 #include "PrintingProcess.h"
 #include "ReadingProcess.h"
@@ -37,27 +38,33 @@ string System::get_pool_file() {
 void System::run() {
 	int option = -1;
 	while (true) {
+		cleanTerminal();
+		cout << "MENU PRINCIPAL\n" << endl;
 		cout << "(1) Criar Processo" << endl;
 		cout << "(2) Executar Proximo" << endl;
 		cout << "(3) Executar Processo Especifico" << endl;
 		cout << "(4) Salvar fila de processos" << endl;
 		cout << "(5) Carregar do arquivo a fila de processos" << endl;
-		cout << "(0) Sair" << endl;
+		cout << "(0) Sair\n" << endl;
 		cout << "Digite a opcao desejada: ";
 		cin >> option;
 		cout << "\n";
 
 		switch (option) {
 		case 1:
+			cleanTerminal();
 			createProcess();
 			break;
 		case 2:
+			cleanTerminal();
 			executeNextProcess();
 			break;
 		case 3:
+			//cleanTerminal();
 			executeSpecificProcess();
 			break;
 		case 4:
+			//cleanTerminal();
 			saveInFile();
 			break;
 		case 5:
@@ -76,37 +83,51 @@ void System::run() {
 
 void System::createProcess() {
 	int option = 0;
+	cout << "CRIAR PROCESSO\n" << endl;
 	cout << "(1) ComputingProcess" << endl;
 	cout << "(2) WritingProcess" << endl;
 	cout << "(3) ReadingProcess" << endl;
-	cout << "(4) PrintingProcess" << endl;
+	cout << "(4) PrintingProcess\n" << endl;
 	cout << "Escolha o processo que deseja criar: ";
 	cin >> option;
 
 	if (option == 1) {
+		cleanTerminal();
 		string equation = "";
-		cout << "Digite a equacao: " << endl;
+		cout << "Digite a equacao: ";
 		cin.ignore();
 		getline(cin, equation);
+
+		while (verifyEquationSyntax(equation) != true) {
+			cleanTerminal();
+			cout << "Digite a equacao: " << endl;
+			cin >> equation;
+		}
 
 		ComputingProcess* computingProcess = new ComputingProcess();
 		computingProcess->set_equation(equation);
 		computingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(computingProcess);
+		cout << "\nEquacao criada com sucesso!" << endl;
+		tapToContinue();
 	}
 	else if (option == 2) {
 		string equation = "";
-		cout << "Digite a equacao: " << endl;
-		cin.ignore();
-		getline(cin, equation);
 
+		while (verifyEquationSyntax(equation) != true) {
+			cleanTerminal();
+			cout << "Digite a equacao: " << endl;
+			cin >> equation;
+		}
+		
 		WritingProcess* writingProcess = new WritingProcess();
 		writingProcess->set_file(computation_file);
 		writingProcess->set_equation(equation);
 		writingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(writingProcess);
+		tapToContinue();
 	}
 	else if (option == 3) {
 		ReadingProcess* readingProcess = new ReadingProcess(&processQueue, &pid_counter);
@@ -114,14 +135,54 @@ void System::createProcess() {
 		readingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(readingProcess);
+		tapToContinue();
 	}
 	else if (option == 4) {
 		PrintingProcess* printingProcess = new PrintingProcess(&processQueue);
 		printingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(printingProcess);
+		tapToContinue();
+	}
+}
+
+bool System::verifyEquationSyntax(string equation) {
+	equation = removeSpaces(equation);
+	if (equation.empty()) {
+		return false;
+	}
+	if (equation.size() < 2) {
+		cout << "Erro: expressão muito curta." << endl;
+		tapToContinue();
+		return false;
 	}
 
+	size_t opPos = equation.find_first_of("+-*/xX");
+	if (opPos == string::npos) {
+		cout << "Erro: operador não encontrado." << endl;
+		tapToContinue();
+		return false;
+	}
+
+	try {
+		double num1 = stod(equation.substr(0, opPos));
+		string sign = equation.substr(opPos, 1);
+		double num2 = stod(equation.substr(opPos + 1));
+
+		if (sign != "+" && sign != "-" && sign != "*" &&
+			sign != "/" && sign != "x" && sign != "X") {
+			cout << "Erro: operador inválido." << endl;
+			tapToContinue();
+			return false;
+		}
+
+		return true;
+	}
+	catch (const std::exception& e) {
+		cout << "Erro ao converter números: " << e.what() << endl;
+		tapToContinue();
+		return false;
+	}
 }
 
 void System::executeNextProcess() {
@@ -129,15 +190,20 @@ void System::executeNextProcess() {
 		Process* removedProcess = processQueue.front();
 		removedProcess->execute();
 		processQueue.pop();
+		cout << "Processo executado!" << endl;
+		tapToContinue();
 	}
 	else {
 		cout << "Nao existem processos na fila." << endl;
+		tapToContinue();
 	}
 }
 
 void System::executeSpecificProcess() {
+	cleanTerminal();
 	if (processQueue.empty()) {
 		cout << "Nao existem processos na fila." << endl;
+		tapToContinue();
 	}
 	else {
 		Process* processToExecute = nullptr;
@@ -163,14 +229,17 @@ void System::executeSpecificProcess() {
 
 		if (found && processToExecute != nullptr) {
 			processToExecute->execute();
+			tapToContinue();
 		}
 		else {
 			cout << "Processo com PID " << processPID << " nao encontrado." << endl;
+			tapToContinue();
 		}
 	}
 }
 
 void System::saveInFile(){
+	cleanTerminal();
 	ofstream oMyFile(pool_file);
 	queue<Process*> processQueueTemp = processQueue;
 
@@ -180,6 +249,8 @@ void System::saveInFile(){
 		oMyFile << tempProcess->toPoolFile() << endl;
 	}
 	oMyFile.close();
+	cout << "Arquivo salvo!" << endl;
+	tapToContinue();
 }
 
 void System::retrieveFromFile() {
