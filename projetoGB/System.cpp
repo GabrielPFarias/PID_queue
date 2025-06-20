@@ -61,8 +61,7 @@ void System::run() {
 			saveInFile();
 			break;
 		case 5:
-			// carregarFila(); // (adicione isso quando implementar)
-			cout << "[placeholder] Carregando fila..." << endl;
+			retrieveFromFile();
 			break;
 		case 0:
 			cout << "Saindo do sistema..." << endl;
