@@ -15,6 +15,8 @@ public:
 	void set_pool_file(string);
 	string get_pool_file();
 	void run();
+	bool verifyEquationSyntax(string equation);
+	void parse(string);
 
 private:
 	string computation_file;
