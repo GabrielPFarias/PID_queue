@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <queue>
@@ -117,7 +118,6 @@ void System::createProcess() {
 	}
 	else if (option == 4) {
 		PrintingProcess* printingProcess = new PrintingProcess(&processQueue);
-		printingProcess->set_file(computation_file);
 		printingProcess->set_PID(pid_counter);
 		pid_counter++;
 		processQueue.push(printingProcess);
@@ -172,5 +172,69 @@ void System::executeSpecificProcess() {
 }
 
 void System::saveInFile(){
+	ofstream oMyFile(pool_file);
+	queue<Process*> processQueueTemp = processQueue;
 
+	while (!processQueueTemp.empty()) {
+		Process* tempProcess = processQueueTemp.front();
+		processQueueTemp.pop();
+		oMyFile << tempProcess->toPoolFile() << endl;
+	}
+	oMyFile.close();
+}
+
+void System::retrieveFromFile() {
+	while (!processQueue.empty()) {
+		processQueue.pop();
+	}
+
+	ifstream iMyFile(pool_file);
+	vector<string> parts;
+	string line = "";
+	while (getline(iMyFile, line)) {
+		size_t start = 0;
+		size_t end = line.find(';');
+		
+
+		while (end != string::npos) {
+			parts.push_back(line.substr(start, end - start));
+			start = end + 1;
+			end = line.find(';', start);
+		}
+		parts.push_back(line.substr(start));
+	}
+
+	string type = parts[0];
+	int pid = stoi(parts[1]);
+
+	if (type == "ComputingProcess") {
+		ComputingProcess* new_process = new ComputingProcess();
+		new_process->set_equation(parts[2]);
+		new_process->set_PID(pid);
+		processQueue.push(new_process);
+	}
+	else if (type == "WritingProcess") {
+		WritingProcess* new_process = new WritingProcess();
+		new_process->set_equation(parts[2]);
+		new_process->set_PID(pid);
+		new_process->set_file(computation_file);
+		processQueue.push(new_process);
+	}
+	else if (type == "ReadingProcess") {
+		ReadingProcess* new_process = new ReadingProcess(&processQueue, &pid_counter);
+		new_process->set_PID(pid);
+		new_process->set_file(computation_file);
+		processQueue.push(new_process);
+	}
+	else if (type == "PrintingProcess") {
+		PrintingProcess* new_process = new PrintingProcess(&processQueue);
+		new_process->set_PID(pid);
+		processQueue.push(new_process);
+	}
+
+	if (pid >= pid_counter) {
+		pid_counter += 1;
+	}
+
+	iMyFile.close();
 }
