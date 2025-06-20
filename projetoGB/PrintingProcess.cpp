@@ -33,3 +33,7 @@ void PrintingProcess::execute() {
 void PrintingProcess::print() {
 	cout << "Tipo: " << "PrintingProcess" << "  PID: " << PID << endl;
 }
+
+string PrintingProcess::toPoolFile() {
+	return "PrintingProcess;" + to_string(PID) + ";";
+}

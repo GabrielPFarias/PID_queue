@@ -14,6 +14,7 @@ public:
 	ReadingProcess(queue<Process*>*, int*);
 	void execute() override;
 	void print() override;
+	string toPoolFile() override;
 	string get_file();
 	void set_file(string);
 private:

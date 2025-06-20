@@ -14,6 +14,7 @@ public:
 	string get_file();
 	void execute() override;
 	void print() override;
+	string toPoolFile() override;
 	void set_equation(string);
 	string get_equation();
 

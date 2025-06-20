@@ -14,6 +14,7 @@ using namespace std;
 System::System() {
 	this->computation_file = "";
 	this->pid_counter = 1;
+	this->pool_file = "";
 }
 
 void System::set_computation_file(string computation_file) {
@@ -22,6 +23,14 @@ void System::set_computation_file(string computation_file) {
 
 string System::get_computation_file() {
 	return computation_file;
+}
+
+void System::set_pool_file(string pool_file) {
+	this->pool_file = pool_file;
+}
+
+string System::get_pool_file() {
+	return pool_file;
 }
 
 void System::run() {
@@ -48,8 +57,7 @@ void System::run() {
 			executeSpecificProcess();
 			break;
 		case 4:
-			// salvarFila(); // (adicione isso quando implementar)
-			cout << "[placeholder] Salvando fila..." << endl;
+			saveInFile();
 			break;
 		case 5:
 			// carregarFila(); // (adicione isso quando implementar)
@@ -161,4 +169,8 @@ void System::executeSpecificProcess() {
 			cout << "Processo com PID " << processPID << " nao encontrado." << endl;
 		}
 	}
+}
+
+void System::saveInFile(){
+
 }

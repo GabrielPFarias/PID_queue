@@ -65,3 +65,7 @@ void ComputingProcess::set_equation(string equation) {
 void ComputingProcess::print() {
 	cout << "Tipo: " << "ComputingProcess" << "  PID: " << get_PID() << "  Equation: " << get_equation() << endl;
 }
+
+string ComputingProcess::toPoolFile() {
+	return "ComputingProcess;" + to_string(PID) + ";" + equation;
+}

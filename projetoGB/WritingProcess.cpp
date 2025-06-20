@@ -52,3 +52,7 @@ string WritingProcess::get_equation() {
 void WritingProcess::print() {
 	cout << "Tipo: " << "WritingProcess" << "  PID: " << get_PID() << "  Equation: " << get_equation() << endl;
 }
+
+string WritingProcess::toPoolFile() {
+	return "WritingProcess;" + to_string(PID) + ";" + equation;
+}

@@ -51,3 +51,7 @@ void ReadingProcess::set_file(string file) {
 void ReadingProcess::print() {
 	cout << "Tipo: " << "ReadingProcess" << "  PID: " << get_PID() << "  Equation: " << endl;
 }
+
+string ReadingProcess::toPoolFile() {
+	return "ReadingProcess;" + to_string(PID) + ";";
+}

@@ -12,6 +12,7 @@ public:
 	ComputingProcess();
 	void execute() override;
 	void print() override;
+	string toPoolFile() override;
 	void parse();
 	string get_equation();
 	void set_equation(string);
